@@ -1,0 +1,28 @@
+@use "@carbon/react/scss/theme" with (
+  $theme: (
+    focus: #71c1a1,
+    interactive: #71c1a1,
+  )
+);
+@use "@carbon/styles";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  color: #333;
+  background: #fff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}

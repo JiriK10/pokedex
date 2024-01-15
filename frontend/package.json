@@ -1,0 +1,45 @@
+{
+  "name": "re-ne-re-grid",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "compile": "graphql-codegen",
+    "watch": "graphql-codegen -w"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.8.9",
+    "@carbon/icons-react": "^11.33.0",
+    "@carbon/react": "^1.47.0",
+    "@carbon/styles": "^1.47.0",
+    "@fontsource/roboto": "^5.0.8",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "@reduxjs/toolkit": "^2.0.1",
+    "classnames": "^2.5.1",
+    "graphql": "^16.8.1",
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.0.4",
+    "use-debounce": "^10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "@types/redux-logger": "^3.0.12",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.0.4",
+    "postcss": "^8.4.33",
+    "redux-logger": "^3.0.6",
+    "sass": "^1.69.7",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  }
+}
