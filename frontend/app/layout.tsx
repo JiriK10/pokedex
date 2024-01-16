@@ -9,6 +9,7 @@ import "@fontsource/roboto/500.css"
 import "@fontsource/roboto/700.css"
 
 import "./styles/globals.scss"
+import Toasts from "./components/Toasts"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,7 +22,10 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
   return (
     <Providers>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          {children}
+          <Toasts />
+        </body>
       </html>
     </Providers>
   )

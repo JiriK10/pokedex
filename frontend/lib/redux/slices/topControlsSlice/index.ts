@@ -1,2 +1,2 @@
 export * from "./topControlsSlice"
-export * from "./selectors"
+export * from "./middleware/persistMiddleware"

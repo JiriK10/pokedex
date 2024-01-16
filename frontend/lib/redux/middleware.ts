@@ -1,6 +1,6 @@
 import { createLogger } from "redux-logger"
 
-import persistMiddleware from "./slices/topControlsSlice/middleware/persistMiddleware"
+import { persistMiddleware } from "./slices/topControlsSlice"
 
 const middleware = [
   persistMiddleware.middleware,

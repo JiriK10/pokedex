@@ -9,7 +9,6 @@ import {
   useDispatch,
   useSelector,
   topControlsSlice,
-  selectAll,
   TopControlsFilterType,
   TopControlsListType,
 } from "@/lib/redux"
@@ -39,7 +38,9 @@ function TopControlsSkeleton() {
 export default function TopControls() {
   const dispatch = useDispatch()
   const [stateLoading, setStateLoading] = useState(true)
-  const { filter, search, pokemonType, listType } = useSelector(selectAll)
+  const { filter, search, pokemonType, listType } = useSelector(
+    topControlsSlice.selectors.all
+  )
   const { data: pokemonTypesData } = usePokemonTypesQuery()
 
   useLayoutEffect(() => {

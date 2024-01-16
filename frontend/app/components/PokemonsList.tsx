@@ -3,7 +3,7 @@
 import { Loading } from "@carbon/react"
 import { useDebounce } from "use-debounce"
 
-import { useSelector, selectAll } from "@/lib/redux"
+import { useSelector, topControlsSlice } from "@/lib/redux"
 import { usePokemonsQuery, usePokemonEvolutionsQuery } from "@/lib/apollo"
 
 import Grid from "./Grid"
@@ -14,7 +14,9 @@ interface PokemonsListProps {
 }
 
 export default function PokemonsList({ parentId }: PokemonsListProps) {
-  const { filter, search, pokemonType, listType } = useSelector(selectAll)
+  const { filter, search, pokemonType, listType } = useSelector(
+    topControlsSlice.selectors.all
+  )
   const [searchDebounced] = useDebounce(search, 500)
 
   let loading, ids

@@ -39,4 +39,7 @@ export const topControlsSlice = createSlice({
       state.listType = type.payload
     },
   },
+  selectors: {
+    all: (state) => state,
+  },
 })
