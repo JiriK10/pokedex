@@ -7,6 +7,7 @@ import { Loading } from "@carbon/react"
 import {
   Favorite as FavoriteIcon,
   FavoriteFilled as FavoriteFilledIcon,
+  InformationFilled as InformationFilledIcon,
 } from "@carbon/icons-react"
 
 import {
@@ -17,17 +18,18 @@ import {
 
 interface GridItemProps {
   id: string
+  onInfoClick?(id: string): void
 }
 
 function GridItemCard({ children }: React.PropsWithChildren) {
   return (
-    <div className="flex flex-col w-full h-72 justify-between overflow-hidden border border-solid border-stone-300">
+    <div className="flex flex-col w-full h-72 border border-solid border-stone-300 bg-stone-100">
       {children}
     </div>
   )
 }
 
-export default function GridItem({ id }: GridItemProps) {
+export default function GridItem({ id, onInfoClick }: GridItemProps) {
   const [imgLoading, setImgLoading] = useState(true)
   const { loading: pokemonLoading, data: pokemonData } = usePokemonQuery({ id })
   const [favorite, { loading: favoriteLoading }] = useFavoriteMutation({ id })
@@ -43,37 +45,51 @@ export default function GridItem({ id }: GridItemProps) {
     )
   }
 
-  let pokemon = pokemonData?.pokemonById
-  const favIconClass = "w-8 h-8 cursor-pointer"
+  const pokemon = pokemonData?.pokemonById
+  const actionIconClass = "w-16 h-16 p-4 rounded-full cursor-pointer"
 
   return (
     <Link href={`/${pokemon?.name}`}>
       <GridItemCard>
-        {imgLoading && (
-          <Loading
-            withOverlay={false}
-            active={!!pokemon?.image}
-            className="w-8 h-8 m-auto"
+        <div className="flex-1 relative flex items-center w-full bg-white">
+          {imgLoading && (
+            <Loading
+              withOverlay={false}
+              active={!!pokemon?.image}
+              className="w-8 h-8 m-auto"
+            />
+          )}
+          <img
+            src={pokemon?.image}
+            onLoad={() => setImgLoading(false)}
+            className={classNames("w-full h-52 p-2 object-contain", {
+              hidden: imgLoading,
+            })}
           />
-        )}
-        <img
-          src={pokemon?.image}
-          onLoad={() => setImgLoading(false)}
-          className={classNames("w-full h-48 p-4 grow object-contain", {
-            hidden: imgLoading,
-          })}
-        />
-        <div className="flex flex-row justify-between justify-self-end bg-stone-100 p-3">
-          <div>
-            <div className="text-lg font-bold">
+          <InformationFilledIcon
+            className={classNames(
+              actionIconClass,
+              "absolute top-0 right-0 text-primary"
+            )}
+            onClick={(e) => {
+              e.preventDefault()
+              pokemon != null && onInfoClick != null && onInfoClick(pokemon.id)
+            }}
+          />
+        </div>
+        <div className="flex items-center">
+          <div className="grow p-3 pr-0 truncate">
+            <div className="text-lg font-bold text-ellipsis overflow-hidden">
               {pokemon?.name ?? "Unknown"}
             </div>
-            <div>{pokemon?.types?.join(", ")}</div>
+            <div className="text-ellipsis overflow-hidden">
+              {pokemon?.types?.join(", ")}
+            </div>
           </div>
           {pokemon?.isFavorite != null && (
             <div
               className={classNames(
-                "flex flex-row items-center pl-3 text-red-600 cursor-default",
+                "text-red-600",
                 (favoriteLoading || unFavoriteLoading) &&
                   "pointer-events-none text-stone-500"
               )}
@@ -81,12 +97,12 @@ export default function GridItem({ id }: GridItemProps) {
             >
               {pokemon?.isFavorite ? (
                 <FavoriteFilledIcon
-                  className={favIconClass}
+                  className={actionIconClass}
                   onClick={() => unFavorite()}
                 />
               ) : (
                 <FavoriteIcon
-                  className={favIconClass}
+                  className={actionIconClass}
                   onClick={() => favorite()}
                 />
               )}

@@ -6,7 +6,7 @@ export const persistMiddleware = createListenerMiddleware()
 persistMiddleware.startListening({
   predicate: () => true,
   effect: async (_, listenerApi) => {
-    let state = listenerApi.getState() as ReduxState
+    const state = listenerApi.getState() as ReduxState
     localStorage.setItem("topControls", JSON.stringify(state.topControls))
   },
 })

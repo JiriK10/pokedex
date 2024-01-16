@@ -22,7 +22,7 @@ export default function ItemDetailPage({ params }: ItemDetailPageProps) {
     return <Loading withOverlay={false} className="w-12 h-12 mt-24 m-auto" />
   }
 
-  let pokemonId = pokemonIdData?.pokemonByName?.id
+  const pokemonId = pokemonIdData?.pokemonByName?.id
   if (pokemonId == null) {
     return notFound()
   }

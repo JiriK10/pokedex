@@ -20,4 +20,5 @@ interface PokemonQueryProps {
 export const usePokemonQuery = (props: PokemonQueryProps) =>
   useQuery(PokemonQuery, {
     variables: props,
+    skip: !props.id,
   })

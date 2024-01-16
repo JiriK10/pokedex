@@ -16,4 +16,5 @@ interface PokemonIdQueryProps {
 export const usePokemonIdQuery = (props: PokemonIdQueryProps) =>
   useQuery(PokemonIdQuery, {
     variables: props,
+    skip: !props.name,
   })

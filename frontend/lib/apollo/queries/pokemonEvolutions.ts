@@ -18,4 +18,5 @@ interface PokemonEvolutionsQueryProps {
 export const usePokemonEvolutionsQuery = (props: PokemonEvolutionsQueryProps) =>
   useQuery(PokemonEvolutionsQuery, {
     variables: props,
+    skip: !props.id,
   })

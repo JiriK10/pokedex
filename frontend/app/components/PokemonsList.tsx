@@ -1,13 +1,19 @@
 "use client"
 
-import { Loading } from "@carbon/react"
+import { useState } from "react"
+import { Loading, Modal } from "@carbon/react"
 import { useDebounce } from "use-debounce"
 
 import { useSelector, topControlsSlice } from "@/lib/redux"
-import { usePokemonsQuery, usePokemonEvolutionsQuery } from "@/lib/apollo"
+import {
+  usePokemonQuery,
+  usePokemonsQuery,
+  usePokemonEvolutionsQuery,
+} from "@/lib/apollo"
 
 import Grid from "./Grid"
 import List from "./List"
+import PokemonInfo from "./PokemonInfo"
 
 interface PokemonsListProps {
   parentId?: string
@@ -18,6 +24,7 @@ export default function PokemonsList({ parentId }: PokemonsListProps) {
     topControlsSlice.selectors.all
   )
   const [searchDebounced] = useDebounce(search, 500)
+  const [infoPokemonId, setInfoPokemonId] = useState("")
 
   let loading, ids
   if (parentId != null) {
@@ -30,7 +37,7 @@ export default function PokemonsList({ parentId }: PokemonsListProps) {
   } else {
     const { loading: pokemonsLoading, data } = usePokemonsQuery({
       offset: 0,
-      limit: 20,
+      limit: 50,
       search: searchDebounced,
       type: pokemonType,
       favorite: filter == "favorite",
@@ -39,12 +46,34 @@ export default function PokemonsList({ parentId }: PokemonsListProps) {
     ids = data?.pokemons.edges.map((i) => i.id)
   }
 
+  const { data: infoData } = usePokemonQuery({
+    id: infoPokemonId,
+  })
+
+  function showInfo(id: string) {
+    setInfoPokemonId(id)
+  }
+
   if (loading) {
     return <Loading withOverlay={false} className="w-12 h-12 mt-24 m-auto" />
   }
 
   return (
-    listType != null &&
-    (listType == "grid" ? <Grid ids={ids || []} /> : <List ids={ids || []} />)
+    <>
+      {listType != null &&
+        (listType == "grid" ? (
+          <Grid ids={ids || []} onInfoClick={showInfo} />
+        ) : (
+          <List ids={ids || []} onInfoClick={showInfo} />
+        ))}
+      <Modal
+        modalHeading={infoData?.pokemonById?.name}
+        passiveModal
+        open={!!infoPokemonId}
+        onRequestClose={() => setInfoPokemonId("")}
+      >
+        <PokemonInfo id={infoPokemonId} />
+      </Modal>
+    </>
   )
 }
