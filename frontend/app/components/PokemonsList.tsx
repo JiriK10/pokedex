@@ -11,22 +11,28 @@ import {
   usePokemonEvolutionsQuery,
 } from "@/lib/apollo"
 
+import TopControls from "./TopControls"
 import Grid from "./Grid"
 import List from "./List"
 import PokemonInfo from "./PokemonInfo"
 
 interface PokemonsListProps {
   parentId?: string
+  showControls?: boolean
 }
 
-export default function PokemonsList({ parentId }: PokemonsListProps) {
+export default function PokemonsList({
+  parentId,
+  showControls = true,
+}: PokemonsListProps) {
   const { filter, search, pokemonType, listType } = useSelector(
     topControlsSlice.selectors.all
   )
   const [searchDebounced] = useDebounce(search, 500)
   const [infoPokemonId, setInfoPokemonId] = useState("")
 
-  let loading, ids
+  let loading = true
+  let ids = null
   if (parentId != null) {
     const { loading: pokemonEvolutionsLoading, data } =
       usePokemonEvolutionsQuery({
@@ -55,17 +61,21 @@ export default function PokemonsList({ parentId }: PokemonsListProps) {
   }
 
   if (loading) {
-    return <Loading withOverlay={false} className="w-12 h-12 mt-24 m-auto" />
+    return (
+      <>
+        {showControls && <TopControls loading />}
+        <Loading withOverlay={false} className="w-12 h-12 mt-16 m-auto" />
+      </>
+    )
   }
-
   return (
     <>
-      {listType != null &&
-        (listType == "grid" ? (
-          <Grid ids={ids || []} onInfoClick={showInfo} />
-        ) : (
-          <List ids={ids || []} onInfoClick={showInfo} />
-        ))}
+      {showControls && <TopControls />}
+      {listType == "grid" ? (
+        <Grid ids={ids || []} onInfoClick={showInfo} />
+      ) : (
+        <List ids={ids || []} onInfoClick={showInfo} />
+      )}
       <Modal
         modalHeading={infoData?.pokemonById?.name}
         passiveModal

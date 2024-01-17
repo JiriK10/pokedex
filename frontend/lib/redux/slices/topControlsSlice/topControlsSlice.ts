@@ -18,7 +18,23 @@ const initialState: TopControlsSliceState = {
 
 export const topControlsSlice = createSlice({
   name: "topControls",
-  initialState,
+  initialState: () => {
+    let state = { ...initialState }
+    // Load state from localStorage
+    if (global?.localStorage != null) {
+      const localState = JSON.parse(
+        localStorage.getItem("topControls") || "null"
+      )
+      if (localState) {
+        state = localState
+      }
+    }
+    // Default listType from window size
+    if (global?.window != null && !state.listType) {
+      state.listType = window.innerWidth > 640 ? "grid" : "list"
+    }
+    return state
+  },
   reducers: {
     restore: (state, newState: PayloadAction<TopControlsSliceState>) => {
       state.filter = newState.payload.filter

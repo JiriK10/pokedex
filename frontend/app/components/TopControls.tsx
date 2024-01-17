@@ -1,6 +1,6 @@
 "use client"
 
-import { Fragment, useState, useLayoutEffect } from "react"
+import { Fragment } from "react"
 import classNames from "classNames"
 import { ComboBox, Search, SkeletonPlaceholder } from "@carbon/react"
 import { Grid as GridIcon, List as ListIcon } from "@carbon/icons-react"
@@ -13,6 +13,10 @@ import {
   TopControlsListType,
 } from "@/lib/redux"
 import { usePokemonTypesQuery } from "@/lib/apollo"
+
+interface TopControlsProps {
+  loading?: boolean
+}
 
 function TopControlsSkeleton() {
   return (
@@ -35,24 +39,12 @@ function TopControlsSkeleton() {
   )
 }
 
-export default function TopControls() {
+export default function TopControls({ loading = false }: TopControlsProps) {
   const dispatch = useDispatch()
-  const [stateLoading, setStateLoading] = useState(true)
   const { filter, search, pokemonType, listType } = useSelector(
     topControlsSlice.selectors.all
   )
   const { data: pokemonTypesData } = usePokemonTypesQuery()
-
-  useLayoutEffect(() => {
-    const localState = JSON.parse(localStorage.getItem("topControls") || "null")
-    if (localState) {
-      dispatch(topControlsSlice.actions.restore(localState))
-    } else {
-      const listType = window.innerWidth > 640 ? "grid" : "list"
-      dispatch(topControlsSlice.actions.listType(listType!))
-    }
-    setStateLoading(false)
-  }, [])
 
   const filters = {
     all: "All",
@@ -61,7 +53,7 @@ export default function TopControls() {
   const listIcons = ["list", "grid"]
   const listIconClass = "w-8 h-8 cursor-pointer"
 
-  if (stateLoading) return <TopControlsSkeleton />
+  if (loading) return <TopControlsSkeleton />
   return (
     <>
       <div className="grid grid-cols-2 min-w-96 p-3 cursor-pointer">

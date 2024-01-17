@@ -136,7 +136,7 @@ export default function PokemonDetail({ id }: PokemonDetailProps) {
         </div>
       </PokemonDetailCard>
       <div className="font-bold text-xl mt-6 -mb-3 pl-3">Evolutions</div>
-      <PokemonsList parentId={id} />
+      <PokemonsList parentId={id} showControls={false} />
       <Modal
         modalHeading={pokemon.name}
         passiveModal
