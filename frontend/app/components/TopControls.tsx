@@ -52,11 +52,19 @@ export default function TopControls({ loading = false }: TopControlsProps) {
   }
   const listIcons = ["list", "grid"]
   const listIconClass = "w-8 h-8 cursor-pointer"
+  const rootClass =
+    "fixed top-0 z-10 w-full p-3 bg-white border-b-2 border-solid border-stone-300 shadow"
 
-  if (loading) return <TopControlsSkeleton />
+  if (loading) {
+    return (
+      <div className={rootClass}>
+        <TopControlsSkeleton />
+      </div>
+    )
+  }
   return (
-    <>
-      <div className="grid grid-cols-2 min-w-96 p-3 cursor-pointer">
+    <div className={rootClass}>
+      <div className="grid grid-cols-2 min-w-96 pb-3 cursor-pointer">
         {Object.entries(filters).map(([type, text]) => (
           <div
             key={type}
@@ -76,7 +84,7 @@ export default function TopControls({ loading = false }: TopControlsProps) {
           </div>
         ))}
       </div>
-      <div className="flex flex-row items-center mx-3">
+      <div className="flex flex-row items-center">
         <Search
           placeholder="Search"
           labelText="Search"
@@ -127,6 +135,6 @@ export default function TopControls({ loading = false }: TopControlsProps) {
           </Fragment>
         ))}
       </div>
-    </>
+    </div>
   )
 }

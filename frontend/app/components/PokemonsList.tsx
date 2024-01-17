@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import classNames from "classNames"
 import { Loading, Modal } from "@carbon/react"
 import { useDebounce } from "use-debounce"
 
@@ -34,6 +35,7 @@ export default function PokemonsList({
   const [searchDebounced] = useDebounce(search, 500)
   const [infoPokemonId, setInfoPokemonId] = useState("")
 
+  // Query Pokemons
   let loading = true
   let ids = null
   let fetchMore = null
@@ -61,6 +63,7 @@ export default function PokemonsList({
     fetchMore = pokemonsFetchMore
   }
 
+  // Info modal
   const { data: infoData } = usePokemonQuery({
     id: infoPokemonId,
   })
@@ -69,6 +72,7 @@ export default function PokemonsList({
     setInfoPokemonId(id)
   }
 
+  // Fetch more on scroll
   if (fetchMore) {
     const handleScroll = () => {
       const scrollY = window.scrollY
@@ -100,11 +104,23 @@ export default function PokemonsList({
     }, [searchDebounced, pokemonType, filter])
   }
 
+  const gridListProps = {
+    ids: ids || [],
+    className: showControls ? "pt-28" : "",
+    onInfoClick: showInfo,
+  }
+
   if (loading) {
     return (
       <>
         {showControls && <TopControls loading />}
-        <Loading withOverlay={false} className="w-12 h-12 mt-16 m-auto" />
+        <Loading
+          withOverlay={false}
+          className={classNames(
+            "w-12 h-12 mt-32 m-auto",
+            showControls ? "mt-44" : "mt-16"
+          )}
+        />
       </>
     )
   }
@@ -112,9 +128,9 @@ export default function PokemonsList({
     <>
       {showControls && <TopControls />}
       {listType == "grid" ? (
-        <Grid ids={ids || []} onInfoClick={showInfo} />
+        <Grid {...gridListProps} />
       ) : (
-        <List ids={ids || []} onInfoClick={showInfo} />
+        <List {...gridListProps} />
       )}
       <Modal
         modalHeading={infoData?.pokemonById?.name}
