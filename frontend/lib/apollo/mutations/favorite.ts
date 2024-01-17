@@ -26,7 +26,6 @@ export const useFavoriteMutation = (props: FavoriteMutationProps) =>
       cache.evict({ fieldName: "pokemons" })
     },
     onCompleted(data) {
-      console.log(data)
       reduxStore.dispatch(
         toastsSlice.actions.add({
           title: `${

@@ -82,23 +82,27 @@ export default function PokemonsList({
         setScrollTrigger(scrollY)
       }
     }
+
     useEffect(() => {
       window.addEventListener("scroll", handleScroll)
       return () => {
         window.removeEventListener("scroll", handleScroll)
       }
     }, [])
+
     useEffect(() => {
       const loaded = ids?.length || 0
       if (loaded > 0 && loaded >= offset + pageSize) {
         setOffset(offset + pageSize)
       }
     }, [scrollTrigger])
+
     useEffect(() => {
       if (offset > 0) {
         fetchMore!({ variables: { offset } })
       }
     }, [offset])
+
     useEffect(() => {
       setOffset(0)
     }, [searchDebounced, pokemonType, filter])
