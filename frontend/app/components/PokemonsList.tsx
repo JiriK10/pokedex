@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Loading, Modal } from "@carbon/react"
 import { useDebounce } from "use-debounce"
 
@@ -21,6 +21,7 @@ interface PokemonsListProps {
   showControls?: boolean
 }
 
+const pageSize = 50
 export default function PokemonsList({
   parentId,
   showControls = true,
@@ -28,11 +29,14 @@ export default function PokemonsList({
   const { filter, search, pokemonType, listType } = useSelector(
     topControlsSlice.selectors.all
   )
+  const [scrollTrigger, setScrollTrigger] = useState(0)
+  const [offset, setOffset] = useState(0)
   const [searchDebounced] = useDebounce(search, 500)
   const [infoPokemonId, setInfoPokemonId] = useState("")
 
   let loading = true
   let ids = null
+  let fetchMore = null
   if (parentId != null) {
     const { loading: pokemonEvolutionsLoading, data } =
       usePokemonEvolutionsQuery({
@@ -41,15 +45,20 @@ export default function PokemonsList({
     loading = pokemonEvolutionsLoading
     ids = data?.pokemonById?.evolutions.map((i) => i.id)
   } else {
-    const { loading: pokemonsLoading, data } = usePokemonsQuery({
+    const {
+      loading: pokemonsLoading,
+      data,
+      fetchMore: pokemonsFetchMore,
+    } = usePokemonsQuery({
       offset: 0,
-      limit: 50,
+      limit: pageSize,
       search: searchDebounced,
       type: pokemonType,
       favorite: filter == "favorite",
     })
     loading = pokemonsLoading
     ids = data?.pokemons.edges.map((i) => i.id)
+    fetchMore = pokemonsFetchMore
   }
 
   const { data: infoData } = usePokemonQuery({
@@ -58,6 +67,37 @@ export default function PokemonsList({
 
   function showInfo(id: string) {
     setInfoPokemonId(id)
+  }
+
+  if (fetchMore) {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      if (scrollY + windowHeight >= documentHeight - 80) {
+        setScrollTrigger(scrollY)
+      }
+    }
+    useEffect(() => {
+      window.addEventListener("scroll", handleScroll)
+      return () => {
+        window.removeEventListener("scroll", handleScroll)
+      }
+    }, [])
+    useEffect(() => {
+      const loaded = ids?.length || 0
+      if (loaded > 0 && loaded >= offset + pageSize) {
+        setOffset(offset + pageSize)
+      }
+    }, [scrollTrigger])
+    useEffect(() => {
+      if (offset > 0) {
+        fetchMore!({ variables: { offset } })
+      }
+    }, [offset])
+    useEffect(() => {
+      setOffset(0)
+    }, [searchDebounced, pokemonType, filter])
   }
 
   if (loading) {

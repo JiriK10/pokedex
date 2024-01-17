@@ -82,6 +82,7 @@ export default function TopControls({ loading = false }: TopControlsProps) {
           labelText="Search"
           closeButtonLabelText="Clear search"
           className="min-w-32"
+          autoFocus
           value={search}
           onChange={(e) =>
             dispatch(topControlsSlice.actions.search(e.target.value))
