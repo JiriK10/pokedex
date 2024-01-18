@@ -113,37 +113,35 @@ export default function PokemonsList({
     className: showControls ? "pt-28" : "",
     onInfoClick: showInfo,
   }
+  const hasPokemons = gridListProps.ids.length > 0
 
-  if (loading) {
-    return (
-      <>
-        {showControls && <TopControls loading />}
-        <Loading
-          withOverlay={false}
-          className={classNames(
-            "w-12 h-12 mt-32 m-auto",
-            showControls ? "mt-44" : "mt-16"
-          )}
-        />
-      </>
-    )
-  }
   return (
     <>
-      {showControls && <TopControls />}
-      {listType == "grid" ? (
+      {showControls && <TopControls loading={loading} />}
+      {listType == "grid" && hasPokemons ? (
         <Grid {...gridListProps} />
       ) : (
         <List {...gridListProps} />
       )}
-      <Modal
-        modalHeading={infoData?.pokemonById?.name}
-        passiveModal
-        open={!!infoPokemonId}
-        onRequestClose={() => setInfoPokemonId("")}
-      >
-        <PokemonInfo id={infoPokemonId} />
-      </Modal>
+      {loading && (
+        <Loading
+          withOverlay={false}
+          className={classNames(
+            "w-12 h-12 m-auto",
+            showControls && !hasPokemons ? "mt-32" : "my-16"
+          )}
+        />
+      )}
+      {infoPokemonId && (
+        <Modal
+          modalHeading={infoData?.pokemonById?.name}
+          passiveModal
+          open={!!infoPokemonId}
+          onRequestClose={() => setInfoPokemonId("")}
+        >
+          <PokemonInfo id={infoPokemonId} />
+        </Modal>
+      )}
     </>
   )
 }

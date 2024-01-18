@@ -29,4 +29,5 @@ interface PokemonsQueryProps {
 export const usePokemonsQuery = (props: PokemonsQueryProps) =>
   useQuery(PokemonsQuery, {
     variables: props,
+    notifyOnNetworkStatusChange: true,
   })
