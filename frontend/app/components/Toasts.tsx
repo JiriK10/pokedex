@@ -58,7 +58,7 @@ function AnimatedToast({ toast }: AnimatedToastProps) {
 export default function Toasts() {
   const toasts = useSelector(toastsSlice.selectors.toasts)
   return (
-    <div className="fixed flex flex-col items-center bottom-4 w-full space-y-2">
+    <div className="fixed flex flex-col items-center bottom-4 left-1/2 -translate-x-1/2 space-y-2">
       {toasts.map((toast) => (
         <AnimatedToast key={toast.id} toast={toast} />
       ))}

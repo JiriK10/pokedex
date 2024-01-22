@@ -94,7 +94,7 @@ export default function PokemonDetail({ id }: PokemonDetailProps) {
         </div>
         <div className="flex items-center">
           <div className="grow p-3 pr-0 pb-1">
-            <div className="text-2xl font-bold">{pokemon.name}</div>
+            <h1 className="text-2xl font-bold">{pokemon.name}</h1>
             <div>{pokemon.types.join(", ")}</div>
           </div>
           <div
@@ -135,8 +135,7 @@ export default function PokemonDetail({ id }: PokemonDetailProps) {
           </div>
         </div>
       </PokemonDetailCard>
-      <div className="font-bold text-xl mt-6 -mb-3 pl-3">Evolutions</div>
-      <PokemonsList parentId={id} showControls={false} />
+      <PokemonsList parentId={id} showControls={false} caption="Evolutions" />
       <Modal
         modalHeading={pokemon.name}
         passiveModal

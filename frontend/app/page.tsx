@@ -3,5 +3,5 @@
 import PokemonsList from "./components/PokemonsList"
 
 export default function IndexPage() {
-  return <PokemonsList />
+  return <PokemonsList noItems="🤔 No Pokémon found" />
 }

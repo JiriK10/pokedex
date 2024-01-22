@@ -20,12 +20,16 @@ import PokemonInfo from "./PokemonInfo"
 interface PokemonsListProps {
   parentId?: string
   showControls?: boolean
+  caption?: string
+  noItems?: string
 }
 
 const pageSize = 50
 export default function PokemonsList({
   parentId,
   showControls = true,
+  caption,
+  noItems,
 }: PokemonsListProps) {
   const { filter, search, pokemonType, listType } = useSelector(
     topControlsSlice.selectors.all
@@ -118,6 +122,19 @@ export default function PokemonsList({
   return (
     <>
       {showControls && <TopControls loading={loading} />}
+      {caption && (hasPokemons || noItems != null) && (
+        <div className="font-bold text-xl mt-6 -mb-3 pl-3">{caption}</div>
+      )}
+      {noItems != null && !loading && !hasPokemons && (
+        <div
+          className={classNames(
+            gridListProps.className,
+            "text-stone-500 text-2xl text-center mt-8"
+          )}
+        >
+          {noItems}
+        </div>
+      )}
       {listType == "grid" && hasPokemons ? (
         <Grid {...gridListProps} />
       ) : (
