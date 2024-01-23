@@ -10,47 +10,28 @@ import {
   InformationFilled as InformationFilledIcon,
 } from "@carbon/icons-react"
 
-import {
-  usePokemonQuery,
-  useFavoriteMutation,
-  useUnFavoriteMutation,
-} from "@/lib/apollo"
+import { Pokemon } from "@/__generated__/graphql"
+import { useFavoriteMutation, useUnFavoriteMutation } from "@/lib/apollo"
 
 interface GridItemProps {
-  id: string
+  pokemon: Pokemon
   onInfoClick?(id: string): void
 }
 
-function GridItemCard({ children }: React.PropsWithChildren) {
-  return (
-    <div className="flex flex-col w-full h-72 border border-solid border-stone-300 bg-stone-100">
-      {children}
-    </div>
-  )
-}
-
-export default function GridItem({ id, onInfoClick }: GridItemProps) {
+export default function GridItem({ pokemon, onInfoClick }: GridItemProps) {
   const [imgLoading, setImgLoading] = useState(true)
-  const { loading: pokemonLoading, data: pokemonData } = usePokemonQuery({ id })
-  const [favorite, { loading: favoriteLoading }] = useFavoriteMutation({ id })
+  const [favorite, { loading: favoriteLoading }] = useFavoriteMutation({
+    id: pokemon.id,
+  })
   const [unFavorite, { loading: unFavoriteLoading }] = useUnFavoriteMutation({
-    id,
+    id: pokemon.id,
   })
 
-  if (pokemonLoading) {
-    return (
-      <GridItemCard>
-        <Loading withOverlay={false} className="w-12 h-12 m-auto" />
-      </GridItemCard>
-    )
-  }
-
-  const pokemon = pokemonData?.pokemonById
   const actionIconClass = "w-16 h-16 p-4 rounded-full cursor-pointer"
 
   return (
     <Link href={`/${pokemon?.name}`}>
-      <GridItemCard>
+      <div className="flex flex-col w-full h-72 border border-solid border-stone-300 bg-stone-100">
         <div className="flex-1 relative flex items-center w-full bg-white">
           {imgLoading && (
             <Loading
@@ -109,7 +90,7 @@ export default function GridItem({ id, onInfoClick }: GridItemProps) {
             </div>
           )}
         </div>
-      </GridItemCard>
+      </div>
     </Link>
   )
 }

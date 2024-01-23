@@ -68,7 +68,7 @@ const resolvers = {
     number: pokemon => parseInt(pokemon.id, 10),
     image: pokemon => `https://img.pokemondb.net/artwork/${pokemon.name.toLowerCase().replace(/[&\\/\\\\#,+()$~%.'":*?<>{}]/g, '').replace(' ', '-')}.jpg`,
     sound: pokemon => `${BASE_URL}/sounds/${parseInt(pokemon.id, 10)}`,
-    evolutions: pokemon => _.map(pokemon.evolutions || [], ev => ({...ev, id: _.padStart(ev.id, 3, '0')})),
+    evolutions: pokemon => _.map(pokemon.evolutions || [], ev => _.padStart(ev.id, 3, '0')).map(id => pokemonsData.find((pokemon) => pokemon.id === id)),
     isFavorite: pokemon => !!favorites.get(pokemon.id)
   },
   PokemonAttack: {

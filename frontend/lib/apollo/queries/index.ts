@@ -1,4 +1,3 @@
-export * from "./pokemon"
 export * from "./pokemonDetail"
 export * from "./pokemonEvolutions"
 export * from "./pokemonId"

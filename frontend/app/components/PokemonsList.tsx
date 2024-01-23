@@ -6,11 +6,8 @@ import { Loading, Modal } from "@carbon/react"
 import { useDebounce } from "use-debounce"
 
 import { useSelector, topControlsSlice } from "@/lib/redux"
-import {
-  usePokemonQuery,
-  usePokemonsQuery,
-  usePokemonEvolutionsQuery,
-} from "@/lib/apollo"
+import { Pokemon } from "@/__generated__/graphql"
+import { usePokemonsQuery, usePokemonEvolutionsQuery } from "@/lib/apollo"
 
 import TopControls from "./TopControls"
 import Grid from "./Grid"
@@ -41,7 +38,7 @@ export default function PokemonsList({
 
   // Query Pokemons
   let loading = true
-  let ids = null
+  let pokemons = null
   let fetchMore = null
   if (parentId != null) {
     const { loading: pokemonEvolutionsLoading, data } =
@@ -49,7 +46,7 @@ export default function PokemonsList({
         id: parentId,
       })
     loading = pokemonEvolutionsLoading
-    ids = data?.pokemonById?.evolutions.map((i) => i.id)
+    pokemons = data?.pokemonById?.evolutions.map((p) => p as Pokemon)
   } else {
     const {
       loading: pokemonsLoading,
@@ -63,17 +60,8 @@ export default function PokemonsList({
       favorite: filter == "favorite",
     })
     loading = pokemonsLoading
-    ids = data?.pokemons.edges.map((i) => i.id)
+    pokemons = data?.pokemons.edges.map((p) => p as Pokemon)
     fetchMore = pokemonsFetchMore
-  }
-
-  // Info modal
-  const { data: infoData } = usePokemonQuery({
-    id: infoPokemonId,
-  })
-
-  function showInfo(id: string) {
-    setInfoPokemonId(id)
   }
 
   // Fetch more on scroll
@@ -95,7 +83,7 @@ export default function PokemonsList({
     }, [])
 
     useEffect(() => {
-      const loaded = ids?.length || 0
+      const loaded = pokemons?.length || 0
       if (loaded > 0 && loaded >= offset + pageSize) {
         setOffset(offset + pageSize)
       }
@@ -113,11 +101,11 @@ export default function PokemonsList({
   }
 
   const gridListProps = {
-    ids: ids || [],
+    pokemons: pokemons || [],
     className: showControls ? "pt-28" : "",
-    onInfoClick: showInfo,
+    onInfoClick: setInfoPokemonId,
   }
-  const hasPokemons = gridListProps.ids.length > 0
+  const hasPokemons = gridListProps.pokemons.length > 0
 
   return (
     <>
@@ -151,7 +139,7 @@ export default function PokemonsList({
       )}
       {infoPokemonId && (
         <Modal
-          modalHeading={infoData?.pokemonById?.name}
+          modalHeading={pokemons?.find((p) => p.id === infoPokemonId)?.name}
           passiveModal
           open={!!infoPokemonId}
           onRequestClose={() => setInfoPokemonId("")}

@@ -10,47 +10,28 @@ import {
   InformationFilled as InformationFilledIcon,
 } from "@carbon/icons-react"
 
-import {
-  usePokemonQuery,
-  useFavoriteMutation,
-  useUnFavoriteMutation,
-} from "@/lib/apollo"
+import { Pokemon } from "@/__generated__/graphql"
+import { useFavoriteMutation, useUnFavoriteMutation } from "@/lib/apollo"
 
 interface ListItemProps {
-  id: string
+  pokemon: Pokemon
   onInfoClick?(id: string): void
 }
 
-function ListItemCard({ children }: React.PropsWithChildren) {
-  return (
-    <div className="flex items-center w-full h-20 my-1 border border-solid border-stone-300 bg-stone-100">
-      {children}
-    </div>
-  )
-}
-
-export default function ListItem({ id, onInfoClick }: ListItemProps) {
+export default function ListItem({ pokemon, onInfoClick }: ListItemProps) {
   const [imgLoading, setImgLoading] = useState(true)
-  const { loading: pokemonLoading, data: pokemonData } = usePokemonQuery({ id })
-  const [favorite, { loading: favoriteLoading }] = useFavoriteMutation({ id })
+  const [favorite, { loading: favoriteLoading }] = useFavoriteMutation({
+    id: pokemon.id,
+  })
   const [unFavorite, { loading: unFavoriteLoading }] = useUnFavoriteMutation({
-    id,
+    id: pokemon.id,
   })
 
-  if (pokemonLoading) {
-    return (
-      <ListItemCard>
-        <Loading withOverlay={false} className="w-12 h-12 m-auto" />
-      </ListItemCard>
-    )
-  }
-
-  const pokemon = pokemonData?.pokemonById
   const actionIconClass = "w-16 h-16 p-4 rounded-full cursor-pointer"
 
   return (
     <Link href={`/${pokemon?.name}`}>
-      <ListItemCard>
+      <div className="flex items-center w-full h-20 my-1 border border-solid border-stone-300 bg-stone-100">
         <div className="flex items-center w-20 h-full bg-white">
           {imgLoading && (
             <Loading
@@ -100,7 +81,7 @@ export default function ListItem({ id, onInfoClick }: ListItemProps) {
             )}
           </div>
         )}
-      </ListItemCard>
+      </div>
     </Link>
   )
 }

@@ -13,6 +13,10 @@ export const PokemonsQuery = gql(`
     ) {
       edges {
         id
+        name
+        types
+        isFavorite
+        image
       }
     }
   }    

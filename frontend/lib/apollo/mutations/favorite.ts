@@ -1,15 +1,14 @@
-import { useMutation } from "@apollo/client"
+import { Reference, useMutation } from "@apollo/client"
 
 import { gql } from "__generated__/gql"
 import { reduxStore, toastsSlice } from "@/lib/redux"
-
-import { PokemonQuery } from "../queries/pokemon"
 
 export const FavoriteMutation = gql(`
   mutation Favorite($id: ID!) {
     favoritePokemon(id: $id) {
       id
       name
+      isFavorite
     }
   }    
 `)
@@ -21,9 +20,26 @@ interface FavoriteMutationProps {
 export const useFavoriteMutation = (props: FavoriteMutationProps) =>
   useMutation(FavoriteMutation, {
     variables: props,
-    refetchQueries: [{ query: PokemonQuery, variables: props }],
     update(cache) {
-      cache.evict({ fieldName: "pokemons" })
+      cache.modify({
+        fields: {
+          pokemons(cached, { storeFieldName }) {
+            const favoriteFilter = JSON.parse(
+              storeFieldName.replace("pokemons:", "")
+            ).$favorite
+            if (favoriteFilter) {
+              let edges: Array<Reference> = [
+                ...cached.edges,
+                { __ref: `Pokemon:${props.id}` },
+              ]
+              edges.sort((a, b) => a.__ref.localeCompare(b.__ref))
+              return { edges }
+            }
+            return cached
+          },
+        },
+      })
+      cache.evict({ fieldName: "pokemonById" })
     },
     onCompleted(data) {
       reduxStore.dispatch(

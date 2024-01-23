@@ -2,15 +2,17 @@
 
 import classNames from "classNames"
 
+import { Pokemon } from "@/__generated__/graphql"
+
 import GridItem from "./GridItem"
 
 interface GridProps {
-  ids: Array<string>
+  pokemons: Array<Pokemon>
   className?: string
   onInfoClick?(id: string): void
 }
 
-export default function Grid({ ids, className, onInfoClick }: GridProps) {
+export default function Grid({ pokemons, className, onInfoClick }: GridProps) {
   return (
     <div
       className={classNames(
@@ -18,8 +20,12 @@ export default function Grid({ ids, className, onInfoClick }: GridProps) {
         className
       )}
     >
-      {ids.map((id) => (
-        <GridItem key={id} id={id} onInfoClick={onInfoClick} />
+      {pokemons.map((pokemon) => (
+        <GridItem
+          key={pokemon.id}
+          pokemon={pokemon}
+          onInfoClick={onInfoClick}
+        />
       ))}
     </div>
   )

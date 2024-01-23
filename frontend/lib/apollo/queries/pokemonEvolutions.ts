@@ -6,6 +6,10 @@ export const PokemonEvolutionsQuery = gql(`
     pokemonById(id: $id) {
       evolutions {
         id
+        name
+        types
+        isFavorite
+        image
       }
     }
   }
@@ -19,4 +23,5 @@ export const usePokemonEvolutionsQuery = (props: PokemonEvolutionsQueryProps) =>
   useQuery(PokemonEvolutionsQuery, {
     variables: props,
     skip: !props.id,
+    notifyOnNetworkStatusChange: true,
   })
