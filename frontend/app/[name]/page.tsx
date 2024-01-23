@@ -15,7 +15,7 @@ interface ItemDetailPageProps {
 
 export default function ItemDetailPage({ params }: ItemDetailPageProps) {
   const { loading: pokemonIdLoading, data: pokemonIdData } = usePokemonIdQuery({
-    name: params.name,
+    name: decodeURI(params.name),
   })
 
   if (pokemonIdLoading) {
