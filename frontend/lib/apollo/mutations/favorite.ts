@@ -23,19 +23,11 @@ export const useFavoriteMutation = (props: FavoriteMutationProps) =>
     update(cache) {
       cache.modify({
         fields: {
-          pokemons(cached, { storeFieldName }) {
+          pokemons(cached, { DELETE, storeFieldName }) {
             const favoriteFilter = JSON.parse(
               storeFieldName.replace("pokemons:", "")
             ).$favorite
-            if (favoriteFilter) {
-              let edges: Array<Reference> = [
-                ...cached.edges,
-                { __ref: `Pokemon:${props.id}` },
-              ]
-              edges.sort((a, b) => a.__ref.localeCompare(b.__ref))
-              return { edges }
-            }
-            return cached
+            return favoriteFilter ? DELETE : cached
           },
         },
       })
