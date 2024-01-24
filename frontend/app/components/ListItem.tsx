@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import classNames from "classNames"
+import { motion } from "framer-motion"
 import { Loading } from "@carbon/react"
 import {
   Favorite as FavoriteIcon,
@@ -31,7 +32,10 @@ export default function ListItem({ pokemon, onInfoClick }: ListItemProps) {
 
   return (
     <Link href={`/${pokemon?.name}`}>
-      <div className="flex items-center w-full h-20 my-1 border border-solid border-stone-300 bg-stone-100">
+      <motion.div
+        whileHover={{ x: -6 }}
+        className="flex items-center w-full h-20 my-1 border border-solid border-stone-300 bg-stone-100"
+      >
         <div className="flex items-center w-20 h-full bg-white">
           {imgLoading && (
             <Loading
@@ -52,15 +56,18 @@ export default function ListItem({ pokemon, onInfoClick }: ListItemProps) {
           <div className="text-lg font-bold">{pokemon?.name ?? "Unknown"}</div>
           <div>{pokemon?.types?.join(", ")}</div>
         </div>
-        <InformationFilledIcon
-          className={classNames(actionIconClass, "text-primary")}
-          onClick={(e) => {
-            e.preventDefault()
-            pokemon != null && onInfoClick != null && onInfoClick(pokemon.id)
-          }}
-        />
+        <motion.div whileHover={{ scale: 1.2 }}>
+          <InformationFilledIcon
+            className={classNames(actionIconClass, "text-primary")}
+            onClick={(e) => {
+              e.preventDefault()
+              pokemon != null && onInfoClick != null && onInfoClick(pokemon.id)
+            }}
+          />
+        </motion.div>
         {pokemon?.isFavorite != null && (
-          <div
+          <motion.div
+            whileHover={{ scale: 1.2 }}
             className={classNames(
               "text-red-600",
               (favoriteLoading || unFavoriteLoading) &&
@@ -79,9 +86,9 @@ export default function ListItem({ pokemon, onInfoClick }: ListItemProps) {
                 onClick={() => favorite()}
               />
             )}
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </Link>
   )
 }

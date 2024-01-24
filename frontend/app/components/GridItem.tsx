@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import classNames from "classNames"
+import { motion } from "framer-motion"
 import { Loading } from "@carbon/react"
 import {
   Favorite as FavoriteIcon,
@@ -31,7 +32,10 @@ export default function GridItem({ pokemon, onInfoClick }: GridItemProps) {
 
   return (
     <Link href={`/${pokemon?.name}`}>
-      <div className="flex flex-col w-full h-72 border border-solid border-stone-300 bg-stone-100">
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        className="flex flex-col w-full h-72 border border-solid border-stone-300 bg-stone-100"
+      >
         <div className="flex-1 relative flex items-center w-full bg-white">
           {imgLoading && (
             <Loading
@@ -47,16 +51,20 @@ export default function GridItem({ pokemon, onInfoClick }: GridItemProps) {
               hidden: imgLoading,
             })}
           />
-          <InformationFilledIcon
-            className={classNames(
-              actionIconClass,
-              "absolute top-0 right-0 text-primary"
-            )}
-            onClick={(e) => {
-              e.preventDefault()
-              pokemon != null && onInfoClick != null && onInfoClick(pokemon.id)
-            }}
-          />
+          <motion.div
+            whileHover={{ scale: 1.2 }}
+            className="absolute top-0 right-0"
+          >
+            <InformationFilledIcon
+              className={classNames(actionIconClass, "text-primary")}
+              onClick={(e) => {
+                e.preventDefault()
+                pokemon != null &&
+                  onInfoClick != null &&
+                  onInfoClick(pokemon.id)
+              }}
+            />
+          </motion.div>
         </div>
         <div className="flex items-center">
           <div className="grow p-3 pr-0 truncate">
@@ -68,7 +76,8 @@ export default function GridItem({ pokemon, onInfoClick }: GridItemProps) {
             </div>
           </div>
           {pokemon?.isFavorite != null && (
-            <div
+            <motion.div
+              whileHover={{ scale: 1.2 }}
               className={classNames(
                 "text-red-600",
                 (favoriteLoading || unFavoriteLoading) &&
@@ -87,10 +96,10 @@ export default function GridItem({ pokemon, onInfoClick }: GridItemProps) {
                   onClick={() => favorite()}
                 />
               )}
-            </div>
+            </motion.div>
           )}
         </div>
-      </div>
+      </motion.div>
     </Link>
   )
 }

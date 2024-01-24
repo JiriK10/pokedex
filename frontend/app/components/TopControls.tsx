@@ -2,6 +2,7 @@
 
 import { Fragment } from "react"
 import classNames from "classNames"
+import { motion } from "framer-motion"
 import { ComboBox, Search, SkeletonPlaceholder } from "@carbon/react"
 import { Grid as GridIcon, List as ListIcon } from "@carbon/icons-react"
 
@@ -66,8 +67,9 @@ export default function TopControls({ loading = false }: TopControlsProps) {
     <div className={rootClass}>
       <div className="grid grid-cols-2 min-w-96 pb-3 cursor-pointer">
         {Object.entries(filters).map(([type, text]) => (
-          <div
+          <motion.div
             key={type}
+            whileHover={{ fontSizeAdjust: 0.65, fontWeight: "bold" }}
             className={classNames(
               "h-10 p-2 border border-solid text-center",
               type == filter
@@ -81,7 +83,7 @@ export default function TopControls({ loading = false }: TopControlsProps) {
             }
           >
             {text}
-          </div>
+          </motion.div>
         ))}
       </div>
       <div className="flex flex-row items-center">
@@ -116,7 +118,8 @@ export default function TopControls({ loading = false }: TopControlsProps) {
             {listIcons[0] != type && (
               <div className="h-10 border-l border-solid border-stone-300 mx-1" />
             )}
-            <div
+            <motion.div
+              whileHover={{ scale: 1.2 }}
               className={classNames(
                 listType == type ? "text-primary" : "text-stone-400"
               )}
@@ -131,7 +134,7 @@ export default function TopControls({ loading = false }: TopControlsProps) {
               ) : (
                 <GridIcon className={listIconClass} />
               )}
-            </div>
+            </motion.div>
           </Fragment>
         ))}
       </div>

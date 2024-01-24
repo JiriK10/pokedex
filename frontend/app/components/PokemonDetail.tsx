@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import classNames from "classNames"
+import { motion } from "framer-motion"
 import { Loading, Modal } from "@carbon/react"
 import {
   ArrowLeft as ArrowLeftIcon,
@@ -54,7 +55,7 @@ export default function PokemonDetail({ id }: PokemonDetailProps) {
   const pokemon = pokemonData?.pokemonById
   if (pokemon == null) return null
 
-  const topIconsClass = "absolute w-20 h-20 p-5 text-primary cursor-pointer"
+  const topIconsClass = "w-20 h-20 p-5 text-primary cursor-pointer"
   const actionIconClass = "w-16 h-16 p-4 rounded-full cursor-pointer"
 
   const audio = pokemon?.sound != null ? new Audio(pokemon.sound) : null
@@ -77,27 +78,43 @@ export default function PokemonDetail({ id }: PokemonDetailProps) {
               hidden: imgLoading,
             })}
           />
-          <ArrowLeftIcon
-            className={classNames(topIconsClass, "left-0 top-0")}
-            onClick={() => history.back()}
-          />
-          <VolumeUpFilledIcon
-            className={classNames(topIconsClass, "left-0 bottom-0", {
-              hidden: imgLoading || !audio,
-            })}
-            onClick={() => audio?.play()}
-          />
-          <InformationFilledIcon
-            className={classNames(topIconsClass, "right-0 top-0")}
-            onClick={() => setInfoOpen(true)}
-          />
+          <motion.div
+            whileHover={{ scale: 1.2 }}
+            className="absolute left-0 top-0"
+          >
+            <ArrowLeftIcon
+              className={topIconsClass}
+              onClick={() => history.back()}
+            />
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.2 }}
+            className="absolute left-0 bottom-0"
+          >
+            <VolumeUpFilledIcon
+              className={classNames(topIconsClass, {
+                hidden: imgLoading || !audio,
+              })}
+              onClick={() => audio?.play()}
+            />
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.2 }}
+            className="absolute right-0 top-0"
+          >
+            <InformationFilledIcon
+              className={topIconsClass}
+              onClick={() => setInfoOpen(true)}
+            />
+          </motion.div>
         </div>
         <div className="flex items-center">
           <div className="grow p-3 pr-0 pb-1">
             <h1 className="text-2xl font-bold">{pokemon.name}</h1>
             <div>{pokemon.types.join(", ")}</div>
           </div>
-          <div
+          <motion.div
+            whileHover={{ scale: 1.2 }}
             className={classNames(
               "text-red-600",
               (favoriteLoading || unFavoriteLoading) &&
@@ -116,7 +133,7 @@ export default function PokemonDetail({ id }: PokemonDetailProps) {
                 onClick={() => favorite()}
               />
             )}
-          </div>
+          </motion.div>
         </div>
         <div className="grid grid-cols-[1fr_max-content] gap-x-3 gap-y-1 p-3 pt-0 items-center">
           <div className="h-3 bg-violet-400 rounded-full"></div>
