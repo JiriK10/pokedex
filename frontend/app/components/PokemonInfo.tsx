@@ -29,7 +29,7 @@ export default function PokemonInfo({ id }: PokemonInfoProps) {
 
   let stats: { [key: string]: any } = {
     Classification: pokemon.classification,
-    Type: pokemon.types.join(", "),
+    Types: pokemon.types.join(", "),
     Resistant: pokemon.resistant.join(", "),
     Weaknesses: pokemon.weaknesses.join(", "),
     "Flee Rate": pokemon.fleeRate,
@@ -53,7 +53,12 @@ export default function PokemonInfo({ id }: PokemonInfoProps) {
               <StructuredListCell noWrap className="font-bold">
                 {name}
               </StructuredListCell>
-              <StructuredListCell noWrap>{value}</StructuredListCell>
+              <StructuredListCell
+                noWrap
+                data-test={`pokemon-${name.toLowerCase().replaceAll(" ", "-")}`}
+              >
+                {value}
+              </StructuredListCell>
             </StructuredListRow>
           ))}
         </StructuredListBody>
@@ -62,23 +67,43 @@ export default function PokemonInfo({ id }: PokemonInfoProps) {
       <StructuredListWrapper isFlush isCondensed>
         <StructuredListBody>
           {pokemon.attacks.fast.map(({ name, type, damage }) => (
-            <StructuredListRow key={name}>
-              <StructuredListCell noWrap className="font-bold">
+            <StructuredListRow key={name} data-test="pokemon-attack">
+              <StructuredListCell
+                noWrap
+                data-test="pokemon-attack-name"
+                className="font-bold"
+              >
                 {name}
               </StructuredListCell>
-              <StructuredListCell noWrap>Fast</StructuredListCell>
-              <StructuredListCell noWrap>{type}</StructuredListCell>
-              <StructuredListCell noWrap>{damage}</StructuredListCell>
+              <StructuredListCell noWrap data-test="pokemon-attack-variant">
+                Fast
+              </StructuredListCell>
+              <StructuredListCell noWrap data-test="pokemon-attack-type">
+                {type}
+              </StructuredListCell>
+              <StructuredListCell noWrap data-test="pokemon-attack-damage">
+                {damage}
+              </StructuredListCell>
             </StructuredListRow>
           ))}
           {pokemon.attacks.special.map(({ name, type, damage }) => (
-            <StructuredListRow key={name}>
-              <StructuredListCell noWrap className="font-bold">
+            <StructuredListRow key={name} data-test="pokemon-attack">
+              <StructuredListCell
+                noWrap
+                data-test="pokemon-attack-name"
+                className="font-bold"
+              >
                 {name}
               </StructuredListCell>
-              <StructuredListCell noWrap>Special</StructuredListCell>
-              <StructuredListCell noWrap>{type}</StructuredListCell>
-              <StructuredListCell noWrap>{damage}</StructuredListCell>
+              <StructuredListCell noWrap data-test="pokemon-attack-variant">
+                Special
+              </StructuredListCell>
+              <StructuredListCell noWrap data-test="pokemon-attack-type">
+                {type}
+              </StructuredListCell>
+              <StructuredListCell noWrap data-test="pokemon-attack-damage">
+                {damage}
+              </StructuredListCell>
             </StructuredListRow>
           ))}
         </StructuredListBody>

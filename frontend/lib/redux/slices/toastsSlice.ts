@@ -1,3 +1,4 @@
+import crypto from "crypto"
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 
 export type ToastKind =
@@ -28,7 +29,7 @@ export const toastsSlice = createSlice({
   reducers: {
     add: (state, toast: PayloadAction<{ title: string; kind?: ToastKind }>) => {
       state.toasts.push({
-        id: crypto.randomUUID(),
+        id: crypto.randomBytes(16).toString("hex"),
         title: toast.payload.title,
         kind: toast.payload.kind || "success",
       })

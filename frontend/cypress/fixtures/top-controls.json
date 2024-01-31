@@ -1,0 +1,90 @@
+{
+  "storage": [
+    {
+      "filter": "all",
+      "search": "test-text-123456",
+      "pokemonType": "Fire",
+      "listType": "list"
+    },
+    {
+      "filter": "all",
+      "search": "test\\/text",
+      "pokemonType": "Ice",
+      "listType": "grid"
+    },
+    {
+      "filter": "favorite",
+      "search": "test--text",
+      "pokemonType": "Bug",
+      "listType": "list"
+    },
+    {
+      "filter": "favorite",
+      "search": "qwerty123456",
+      "pokemonType": "Water",
+      "listType": "grid"
+    }
+  ],
+  "filters": [
+    {
+      "favorite": false,
+      "search": "t",
+      "type": null,
+      "result": 58
+    },
+    {
+      "favorite": false,
+      "search": "abc",
+      "type": null,
+      "result": 0
+    },
+    {
+      "favorite": false,
+      "search": "saur",
+      "type": null,
+      "result": ["Bulbasaur", "Ivysaur", "Venusaur"]
+    },
+    {
+      "favorite": true,
+      "search": "saur",
+      "type": null,
+      "result": ["Ivysaur"]
+    },
+    {
+      "favorite": false,
+      "search": null,
+      "type": "Flying",
+      "result": 19
+    },
+    {
+      "favorite": true,
+      "search": null,
+      "type": "Ice",
+      "result": ["Jynx"]
+    },
+    {
+      "favorite": false,
+      "search": "ma",
+      "type": "Electric",
+      "result": ["Magnemite", "Magneton"]
+    },
+    {
+      "favorite": false,
+      "search": "man",
+      "type": "Electric",
+      "result": 0
+    },
+    {
+      "favorite": true,
+      "search": "a",
+      "type": "Electric",
+      "result": 0
+    },
+    {
+      "favorite": true,
+      "search": "a",
+      "type": "Poison",
+      "result": ["Ivysaur", "Arbok"]
+    }
+  ]
+}

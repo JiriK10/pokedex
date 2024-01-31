@@ -1,0 +1,140 @@
+[
+  {
+    "name": "Bulbasaur",
+    "types": "Grass, Poison",
+    "maxCP": "951",
+    "maxHP": "1071",
+    "weight": "6.04kg - 7.76kg",
+    "height": "0.61m - 0.79m",
+    "classification": "Seed Pokémon",
+    "resistant": "Water, Electric, Grass, Fighting, Fairy",
+    "weaknesses": "Fire, Ice, Flying, Psychic",
+    "fleeRate": "0.1",
+    "evolutionRequirements": "25 Bulbasaur candies",
+    "evolutions": ["Ivysaur", "Venusaur"],
+    "attacks": [
+      {
+        "variant": "Fast",
+        "name": "Tackle",
+        "type": "Normal",
+        "damage": 12
+      },
+      {
+        "variant": "Fast",
+        "name": "Vine Whip",
+        "type": "Grass",
+        "damage": 7
+      },
+      {
+        "variant": "Special",
+        "name": "Power Whip",
+        "type": "Grass",
+        "damage": 70
+      },
+      {
+        "variant": "Special",
+        "name": "Seed Bomb",
+        "type": "Grass",
+        "damage": 40
+      },
+      {
+        "variant": "Special",
+        "name": "Sludge Bomb",
+        "type": "Poison",
+        "damage": 55
+      }
+    ]
+  },
+  {
+    "name": "Charmeleon",
+    "types": "Fire",
+    "maxCP": "1411",
+    "maxHP": "1557",
+    "weight": "16.63kg - 21.38kg",
+    "height": "0.96m - 1.24m",
+    "classification": "Flame Pokémon",
+    "resistant": "Fire, Grass, Ice, Bug, Steel, Fairy",
+    "weaknesses": "Water, Ground, Rock",
+    "fleeRate": "0.07",
+    "evolutionRequirements": "100 Charmander candies",
+    "evolutions": ["Charizard"],
+    "attacks": [
+      {
+        "variant": "Fast",
+        "name": "Ember",
+        "type": "Fire",
+        "damage": 10
+      },
+      {
+        "variant": "Fast",
+        "name": "Scratch",
+        "type": "Normal",
+        "damage": 6
+      },
+      {
+        "variant": "Special",
+        "name": "Fire Punch",
+        "type": "Fire",
+        "damage": 40
+      },
+      {
+        "variant": "Special",
+        "name": "Flame Burst",
+        "type": "Fire",
+        "damage": 30
+      },
+      {
+        "variant": "Special",
+        "name": "Flamethrower",
+        "type": "Fire",
+        "damage": 55
+      }
+    ]
+  },
+  {
+    "name": "Mr. Mime",
+    "types": "Psychic, Fairy",
+    "maxCP": "1345",
+    "maxHP": "1494",
+    "weight": "47.69kg - 61.31kg",
+    "height": "1.14m - 1.46m",
+    "classification": "Barrier Pokémon",
+    "resistant": "Fighting, Psychic, Dragon",
+    "weaknesses": "Poison, Ghost, Steel",
+    "fleeRate": "0.09",
+    "evolutionRequirements": null,
+    "evolutions": null,
+    "attacks": [
+      {
+        "variant": "Fast",
+        "name": "Confusion",
+        "type": "Psychic",
+        "damage": 15
+      },
+      {
+        "variant": "Fast",
+        "name": "Zen Headbutt",
+        "type": "Psychic",
+        "damage": 12
+      },
+      {
+        "variant": "Special",
+        "name": "Psybeam",
+        "type": "Psychic",
+        "damage": 40
+      },
+      {
+        "variant": "Special",
+        "name": "Psychic",
+        "type": "Psychic",
+        "damage": 55
+      },
+      {
+        "variant": "Special",
+        "name": "Shadow Ball",
+        "type": "Ghost",
+        "damage": 45
+      }
+    ]
+  }
+]

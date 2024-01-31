@@ -26,15 +26,28 @@ function TopControlsSkeleton() {
         {[...Array(2)].map((_, index) => (
           <SkeletonPlaceholder
             key={index}
+            data-test="top-controls-skeleton-tab"
             className="w-full h-10 border border-solid border-primary"
           />
         ))}
       </div>
       <div className="flex flex-row items-center h-10 mx-3">
-        <SkeletonPlaceholder className="min-w-32 h-full grow" />
-        <SkeletonPlaceholder className="w-52 h-full mx-3" />
-        <SkeletonPlaceholder className="w-7 h-full mx-1" />
-        <SkeletonPlaceholder className="w-7 h-full mx-1" />
+        <SkeletonPlaceholder
+          data-test="top-controls-skeleton-search"
+          className="min-w-32 h-full grow"
+        />
+        <SkeletonPlaceholder
+          data-test="top-controls-skeleton-pokemon-type"
+          className="w-52 h-full mx-3"
+        />
+        <SkeletonPlaceholder
+          data-test="top-controls-skeleton-list-type"
+          className="w-7 h-full mx-1"
+        />
+        <SkeletonPlaceholder
+          data-test="top-controls-skeleton-list-type"
+          className="w-7 h-full mx-1"
+        />
       </div>
     </>
   )
@@ -69,6 +82,7 @@ export default function TopControls({ loading = false }: TopControlsProps) {
         {Object.entries(filters).map(([type, text]) => (
           <motion.div
             key={type}
+            data-test={`top-controls-${type}`}
             whileHover={{ fontSizeAdjust: 0.65, fontWeight: "bold" }}
             className={classNames(
               "h-10 p-2 border border-solid text-center",
@@ -88,6 +102,7 @@ export default function TopControls({ loading = false }: TopControlsProps) {
       </div>
       <div className="flex flex-row items-center">
         <Search
+          data-test="top-controls-search"
           placeholder="Search"
           labelText="Search"
           closeButtonLabelText="Clear search"
@@ -100,6 +115,7 @@ export default function TopControls({ loading = false }: TopControlsProps) {
         />
         <ComboBox
           id="pokemonType"
+          data-test="top-controls-pokemon-type"
           items={pokemonTypesData?.pokemonTypes || []}
           initialSelectedItem={pokemonType}
           placeholder="Type"
@@ -130,9 +146,15 @@ export default function TopControls({ loading = false }: TopControlsProps) {
               }
             >
               {type == "list" ? (
-                <ListIcon className={listIconClass} />
+                <ListIcon
+                  data-test="top-controls-list"
+                  className={listIconClass}
+                />
               ) : (
-                <GridIcon className={listIconClass} />
+                <GridIcon
+                  data-test="top-controls-grid"
+                  className={listIconClass}
+                />
               )}
             </motion.div>
           </Fragment>

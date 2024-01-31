@@ -39,6 +39,7 @@ function AnimatedToast({ toast }: AnimatedToastProps) {
           transition={{ duration: 0.2 }}
         >
           <ToastNotification
+            data-test="toast"
             kind={toast.kind}
             statusIconDescription=" "
             timeout={0}

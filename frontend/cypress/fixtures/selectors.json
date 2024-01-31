@@ -1,0 +1,55 @@
+{
+  "grid": "grid",
+  "gridItem": "grid-item",
+  "list": "list",
+  "listItem": "list-item",
+  "back": "back",
+  "loading": "loading",
+  "image": "image",
+  "imageLoading": "image-loading",
+  "favorite": "favorite",
+  "unfavorite": "unfavorite",
+  "playSound": "play-sound",
+  "openInfo": "open-info",
+  "toast": "toast",
+  "pokemon": {
+    "detail": "pokemon-detail",
+    "info": "pokemon-info",
+    "values": {
+      "types": "pokemon-types",
+      "maxCP": "pokemon-max-cp",
+      "maxHP": "pokemon-max-hp",
+      "weight": "pokemon-weight",
+      "height": "pokemon-height",
+      "classification": "pokemon-classification",
+      "resistant": "pokemon-resistant",
+      "weaknesses": "pokemon-weaknesses",
+      "fleeRate": "pokemon-flee-rate",
+      "evolutionRequirements": "pokemon-evolution-requirements"
+    },
+    "attacks": {
+      "attack": "pokemon-attack",
+      "name": "pokemon-attack-name",
+      "variant": "pokemon-attack-variant",
+      "type": "pokemon-attack-type",
+      "damage": "pokemon-attack-damage"
+    }
+  },
+  "pokemonList": {
+    "noItems": "no-items"
+  },
+  "topControls": {
+    "all": "top-controls-all",
+    "favorite": "top-controls-favorite",
+    "search": "top-controls-search",
+    "pokemonType": "top-controls-pokemon-type",
+    "list": "top-controls-list",
+    "grid": "top-controls-grid",
+    "skeleton": {
+      "tab": "top-controls-skeleton-tab",
+      "search": "top-controls-skeleton-search",
+      "pokemonType": "top-controls-skeleton-pokemon-type",
+      "listType": "top-controls-skeleton-list-type"
+    }
+  }
+}

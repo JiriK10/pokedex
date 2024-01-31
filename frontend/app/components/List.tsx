@@ -14,7 +14,10 @@ interface ListProps {
 
 export default function List({ pokemons, className, onInfoClick }: ListProps) {
   return (
-    <div className={classNames("flex flex-col m-3", className)}>
+    <div
+      data-test="list"
+      className={classNames("flex flex-col m-3", className)}
+    >
       {pokemons.map((pokemon) => (
         <ListItem
           key={pokemon.id}

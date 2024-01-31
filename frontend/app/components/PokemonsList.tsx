@@ -15,6 +15,7 @@ import List from "./List"
 import PokemonInfo from "./PokemonInfo"
 
 interface PokemonsListProps {
+  dataTest?: string
   parentId?: string
   showControls?: boolean
   caption?: string
@@ -23,6 +24,7 @@ interface PokemonsListProps {
 
 const pageSize = 50
 export default function PokemonsList({
+  dataTest,
   parentId,
   showControls = true,
   caption,
@@ -101,6 +103,7 @@ export default function PokemonsList({
   }
 
   const gridListProps = {
+    dataTest,
     pokemons: pokemons || [],
     className: showControls ? "pt-28" : "",
     onInfoClick: setInfoPokemonId,
@@ -111,10 +114,16 @@ export default function PokemonsList({
     <>
       {showControls && <TopControls loading={loading} />}
       {caption && (hasPokemons || noItems != null) && (
-        <div className="font-bold text-xl mt-6 -mb-3 pl-3">{caption}</div>
+        <div
+          data-test={`${dataTest}-caption`}
+          className="font-bold text-xl mt-6 -mb-3 pl-3"
+        >
+          {caption}
+        </div>
       )}
       {noItems != null && !loading && !hasPokemons && (
         <div
+          data-test="no-items"
           className={classNames(
             gridListProps.className,
             "text-stone-500 text-2xl text-center mt-8"
@@ -130,6 +139,7 @@ export default function PokemonsList({
       )}
       {loading && (
         <Loading
+          data-test="loading"
           withOverlay={false}
           className={classNames(
             "w-12 h-12 m-auto",
@@ -139,9 +149,10 @@ export default function PokemonsList({
       )}
       {infoPokemonId && (
         <Modal
+          data-test="pokemon-info"
           modalHeading={pokemons?.find((p) => p.id === infoPokemonId)?.name}
           passiveModal
-          open={!!infoPokemonId}
+          open
           onRequestClose={() => setInfoPokemonId("")}
         >
           <PokemonInfo id={infoPokemonId} />

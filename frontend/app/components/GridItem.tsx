@@ -31,7 +31,7 @@ export default function GridItem({ pokemon, onInfoClick }: GridItemProps) {
   const actionIconClass = "w-16 h-16 p-4 rounded-full cursor-pointer"
 
   return (
-    <Link href={`/${pokemon?.name}`}>
+    <Link href={`/${pokemon?.name}`} data-test="grid-item">
       <motion.div
         whileHover={{ scale: 1.05 }}
         className="flex flex-col w-full h-72 border border-solid border-stone-300 bg-stone-100"
@@ -56,6 +56,7 @@ export default function GridItem({ pokemon, onInfoClick }: GridItemProps) {
             className="absolute top-0 right-0"
           >
             <InformationFilledIcon
+              data-test="open-info"
               className={classNames(actionIconClass, "text-primary")}
               onClick={(e) => {
                 e.preventDefault()
@@ -87,11 +88,13 @@ export default function GridItem({ pokemon, onInfoClick }: GridItemProps) {
             >
               {pokemon?.isFavorite ? (
                 <FavoriteFilledIcon
+                  data-test="unfavorite"
                   className={actionIconClass}
                   onClick={() => unFavorite()}
                 />
               ) : (
                 <FavoriteIcon
+                  data-test="favorite"
                   className={actionIconClass}
                   onClick={() => favorite()}
                 />

@@ -31,7 +31,7 @@ export default function ListItem({ pokemon, onInfoClick }: ListItemProps) {
   const actionIconClass = "w-16 h-16 p-4 rounded-full cursor-pointer"
 
   return (
-    <Link href={`/${pokemon?.name}`}>
+    <Link href={`/${pokemon?.name}`} data-test="list-item">
       <motion.div
         whileHover={{ x: -6 }}
         className="flex items-center w-full h-20 my-1 border border-solid border-stone-300 bg-stone-100"
@@ -58,6 +58,7 @@ export default function ListItem({ pokemon, onInfoClick }: ListItemProps) {
         </div>
         <motion.div whileHover={{ scale: 1.2 }}>
           <InformationFilledIcon
+            data-test="open-info"
             className={classNames(actionIconClass, "text-primary")}
             onClick={(e) => {
               e.preventDefault()
@@ -77,11 +78,13 @@ export default function ListItem({ pokemon, onInfoClick }: ListItemProps) {
           >
             {pokemon?.isFavorite ? (
               <FavoriteFilledIcon
+                data-test="unfavorite"
                 className={actionIconClass}
                 onClick={() => unFavorite()}
               />
             ) : (
               <FavoriteIcon
+                data-test="favorite"
                 className={actionIconClass}
                 onClick={() => favorite()}
               />
