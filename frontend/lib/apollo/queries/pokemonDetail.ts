@@ -2,8 +2,8 @@ import { useQuery } from "@apollo/client"
 import { gql } from "__generated__/gql"
 
 export const PokemonDetailQuery = gql(`
-  query PokemonDetail($id: ID!) {
-    pokemonById(id: $id) {
+  query PokemonDetail($name: String!) {
+    pokemonByName(name: $name) {
       id
       name
       types
@@ -25,11 +25,11 @@ export const PokemonDetailQuery = gql(`
 `)
 
 interface PokemonDetailQueryProps {
-  id: string
+  name: string
 }
 
 export const usePokemonDetailQuery = (props: PokemonDetailQueryProps) =>
   useQuery(PokemonDetailQuery, {
     variables: props,
-    skip: !props.id,
+    skip: !props.name,
   })

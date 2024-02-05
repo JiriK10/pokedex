@@ -1,9 +1,8 @@
 "use client"
 
 import { notFound } from "next/navigation"
-import { Loading } from "@carbon/react"
 
-import { usePokemonIdQuery } from "@/lib/apollo"
+import { usePokemonDetailQuery } from "@/lib/apollo"
 
 import PokemonDetail from "../components/PokemonDetail"
 
@@ -14,18 +13,14 @@ interface ItemDetailPageProps {
 }
 
 export default function ItemDetailPage({ params }: ItemDetailPageProps) {
-  const { loading: pokemonIdLoading, data: pokemonIdData } = usePokemonIdQuery({
+  const { loading: pokemonLoading, data: pokemonData } = usePokemonDetailQuery({
     name: decodeURI(params.name),
   })
 
-  if (pokemonIdLoading) {
-    return <Loading withOverlay={false} className="w-12 h-12 mt-24 m-auto" />
-  }
-
-  const pokemonId = pokemonIdData?.pokemonByName?.id
-  if (pokemonId == null) {
+  const pokemon = pokemonData?.pokemonByName
+  if (!pokemonLoading && pokemon == null) {
     return notFound()
   }
 
-  return <PokemonDetail id={pokemonId} />
+  return <PokemonDetail pokemon={pokemon} loading={pokemonLoading} />
 }

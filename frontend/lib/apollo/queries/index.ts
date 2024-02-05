@@ -1,6 +1,5 @@
 export * from "./pokemonDetail"
 export * from "./pokemonEvolutions"
-export * from "./pokemonId"
 export * from "./pokemonInfo"
 export * from "./pokemons"
 export * from "./pokemonTypes"

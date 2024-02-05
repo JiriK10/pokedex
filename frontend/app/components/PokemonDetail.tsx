@@ -12,17 +12,15 @@ import {
   VolumeUpFilled as VolumeUpFilledIcon,
 } from "@carbon/icons-react"
 
-import {
-  usePokemonDetailQuery,
-  useFavoriteMutation,
-  useUnFavoriteMutation,
-} from "@/lib/apollo"
+import { Pokemon } from "@/__generated__/graphql"
+import { useFavoriteMutation, useUnFavoriteMutation } from "@/lib/apollo"
 
 import PokemonsList from "./PokemonsList"
 import PokemonInfo from "./PokemonInfo"
 
 interface PokemonDetailProps {
-  id: string
+  pokemon: Pokemon
+  loading: boolean
 }
 
 interface PokemonDetailCardProps extends React.PropsWithChildren {
@@ -40,33 +38,33 @@ function PokemonDetailCard({ children, dataTest }: PokemonDetailCardProps) {
   )
 }
 
-export default function PokemonDetail({ id }: PokemonDetailProps) {
-  const [imgLoading, setImgLoading] = useState(true)
-  const [audioPlaying, setAudioPlaying] = useState(false)
-  const [infoOpen, setInfoOpen] = useState(false)
-  const { loading: pokemonLoading, data: pokemonData } = usePokemonDetailQuery({
-    id,
-  })
-  const [favorite, { loading: favoriteLoading }] = useFavoriteMutation({ id })
-  const [unFavorite, { loading: unFavoriteLoading }] = useUnFavoriteMutation({
-    id,
-  })
-
-  if (pokemonLoading) {
+export default function PokemonDetail({
+  pokemon,
+  loading,
+}: PokemonDetailProps) {
+  if (loading) {
     return (
       <PokemonDetailCard dataTest="loading">
         <Loading withOverlay={false} className="w-12 h-12 mx-auto my-20" />
       </PokemonDetailCard>
     )
   }
-
-  const pokemon = pokemonData?.pokemonById
   if (pokemon == null) return null
+
+  const [imgLoading, setImgLoading] = useState(true)
+  const [audioPlaying, setAudioPlaying] = useState(false)
+  const [infoOpen, setInfoOpen] = useState(false)
+  const [favorite, { loading: favoriteLoading }] = useFavoriteMutation({
+    id: pokemon.id,
+  })
+  const [unFavorite, { loading: unFavoriteLoading }] = useUnFavoriteMutation({
+    id: pokemon.id,
+  })
 
   const topIconsClass = "w-20 h-20 p-5 text-primary cursor-pointer"
   const actionIconClass = "w-16 h-16 p-4 rounded-full cursor-pointer"
 
-  const audio = pokemon?.sound != null ? new Audio(pokemon.sound) : null
+  const audio = pokemon.sound != null ? new Audio(pokemon.sound) : null
   if (audio) {
     audio.onplay = () => setAudioPlaying(true)
     audio.onpause = () => setAudioPlaying(false)
@@ -185,7 +183,7 @@ export default function PokemonDetail({ id }: PokemonDetailProps) {
       </PokemonDetailCard>
       <PokemonsList
         dataTest="pokemon-evolutions"
-        parentId={id}
+        parentId={pokemon.id}
         showControls={false}
         caption="Evolutions"
       />
@@ -197,7 +195,7 @@ export default function PokemonDetail({ id }: PokemonDetailProps) {
           open
           onRequestClose={() => setInfoOpen(false)}
         >
-          <PokemonInfo id={pokemon?.id} />
+          <PokemonInfo id={pokemon.id} />
         </Modal>
       )}
     </>
